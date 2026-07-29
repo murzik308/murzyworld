@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MurzyWorld</title>
+
+<style>
+
+* {
+    box-sizing:border-box;
+    font-family:"Segoe UI", Arial, sans-serif;
+}
+
+
+body {
+
+    margin:0;
+    min-height:100vh;
+
+    background:#000;
+    color:white;
+
+    overflow-x:hidden;
+}
+
+
+/* ===== SNOW ===== */
+
+.snow {
+
+    position:fixed;
+
+    top:-20px;
+
+    background:white;
+
+    border-radius:50%;
+
+    pointer-events:none;
+
+    z-index:1;
+
+    filter:blur(.5px);
+
+    animation:snowfall linear infinite;
+
+}
+
+
+@keyframes snowfall {
+
+    0% {
+
+        transform:
+        translateY(-20px)
+        translateX(0);
+
+        opacity:0;
+
+    }
+
+
+    10% {
+
+        opacity:.8;
+
+    }
+
+
+    100% {
+
+        transform:
+        translateY(110vh)
+        translateX(80px);
+
+        opacity:.15;
+
+    }
+
+}
+
+
+
+/* ===== HEADER / FOOTER ===== */
+
+
+footer {
+
+    position:relative;
+
+    z-index:2;
+
+    margin:25px;
+
+    padding:20px 30px;
+
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+
+    background:
+    rgba(255,255,255,.08);
+
+
+    backdrop-filter:
+    blur(25px);
+
+
+    border:
+    1px solid rgba(255,255,255,.15);
+
+
+    border-radius:25px;
+
+
+    box-shadow:
+    0 0 40px rgba(255,255,255,.1);
+
+}
+
+
+
+.logo-area {
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+
+
+.logo-area img {
+
+    width:65px;
+
+    height:65px;
+
+    border-radius:18px;
+
+}
+
+
+
+.logo-text {
+
+    font-size:35px;
+
+    font-weight:900;
+
+
+    background:
+    linear-gradient(
+    90deg,
+    #ff0000,
+    #ff9d00
+    );
+
+
+    -webkit-background-clip:text;
+
+    color:transparent;
+
+}
+
+
+
+.ip {
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+
+
+.copy {
+
+
+    padding:12px 20px;
+
+    border:0;
+
+    border-radius:15px;
+
+
+    background:
+    rgba(255,255,255,.15);
+
+
+    color:white;
+
+
+    cursor:pointer;
+
+
+    backdrop-filter:blur(10px);
+
+
+    transition:.3s;
+
+}
+
+
+.copy:hover {
+
+    background:white;
+
+    color:black;
+
+}
+
+
+
+/* ===== DONATES ===== */
+
+
+.container {
+
+    position:relative;
+
+    z-index:2;
+
+    padding:20px;
+
+}
+
+
+
+h3 {
+
+    text-align:center;
+
+    font-size:42px;
+
+}
+
+
+
+.donates {
+
+
+    display:grid;
+
+
+    grid-template-columns:
+    repeat(
+    auto-fit,
+    minmax(260px,1fr)
+    );
+
+
+    gap:25px;
+
+}
+
+
+
+.card {
+
+
+    background:
+    rgba(255,255,255,.08);
+
+
+    backdrop-filter:
+    blur(25px);
+
+
+    border:
+    1px solid rgba(255,255,255,.15);
+
+
+    border-radius:25px;
+
+
+    padding:25px;
+
+
+    transition:.35s;
+
+
+    min-height:230px;
+
+}
+
+
+
+.card:hover {
+
+    transform:translateY(-10px);
+
+    box-shadow:
+    0 0 40px rgba(255,255,255,.2);
+
+}
+
+
+
+.rank {
+
+    font-size:30px;
+
+    font-weight:900;
+
+}
+
+
+
+.price {
+
+    font-size:24px;
+
+    margin:15px 0;
+
+}
+
+
+
+.buy {
+
+
+    width:100%;
+
+    padding:12px;
+
+
+    border:0;
+
+
+    border-radius:15px;
+
+
+    background:white;
+
+
+    color:black;
+
+
+    font-weight:bold;
+
+
+    cursor:pointer;
+
+}
+
+
+
+.bottom {
+
+
+    position:relative;
+
+    z-index:2;
+
+
+    text-align:center;
+
+
+    padding:25px;
+
+
+    opacity:.7;
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<footer>
+
+
+<div class="logo-area">
+
+<img src="mwlogo.png">
+
+<div class="logo-text">
+MurzyWorld
+</div>
+
+</div>
+
+
+
+<div class="ip">
+
+IP:
+murzyworld.coldmc.online
+
+<button class="copy" onclick="copyIP()">
+Копировать
+</button>
+
+</div>
+
+
+</footer>
+
+
+
+
+
+<div class="container">
+
+
+<h3>
+Донат-магазин
+</h3>
+
+
+<div class="donates">
+
+
+
+<script>
+
+const ranks = [
+
+["RABBIT","#FCCEE8","9руб.","Спавнит большое дерево /bigtree <дерево>"],
+
+["FOX","#FF9100","10руб.","Просто прикольный донат"],
+
+["CAT","#CB9C1E","25руб.","Лечение /heal"],
+
+["WOLF","#D3D3D3","39руб.","Кастомное время /ptime"],
+
+["VIP","#FFC400","59руб.","Пчёлы через /beezooka"],
+
+["FROG","#00D929","79руб.","/whereami"],
+
+["PANDA","#FFFFFF","99руб.","Динамит через /grenade"],
+
+["WARDEN","#0027D0","129руб.","Бессмертие /god"],
+
+["DRAGON","#753DC8","135руб.","Легендарный донат на РилиВорлд... и здесь тоже!"],
+
+["ULTRA","#B200FD","159руб.","/setwarp"],
+
+["MODER","#5FE2C5","359руб.","Все права модератора"],
+
+["ADMIN","#DEAB20","999руб.","АБСОЛЮТНО ВСЕ ПРАВА!"]
+
+];
+
+
+document.write(
+
+ranks.map(r => `
+
+<div class="card">
+
+<div class="rank" style="color:${r[1]}">
+${r[0]}
+</div>
+
+
+<div class="price">
+${r[2]}
+</div>
+
+
+<button class="buy">
+КУПИТЬ
+</button>
+
+
+<p>
+Преимущества:<br>
+${r[3]}
+</p>
+
+
+</div>
+
+`).join("")
+
+);
+
+</script>
+
+
+</div>
+
+</div>
+
+
+
+<div class="bottom">
+
+©2026 MurzyWorld
+
+</div>
+
+
+
+
+
+<script>
+
+
+function copyIP(){
+
+navigator.clipboard.writeText(
+"murzyworld.coldmc.online"
+);
+
+
+alert(
+"IP скопирован!"
+);
+
+}
+
+
+
+
+// создание снега
+
+for(let i=0;i<180;i++){
+
+
+let snow=document.createElement("div");
+
+
+snow.className="snow";
+
+
+
+let size=Math.random()*5+2;
+
+
+snow.style.width=size+"px";
+
+snow.style.height=size+"px";
+
+
+
+snow.style.left=
+Math.random()*100+"vw";
+
+
+
+snow.style.animationDuration=
+(Math.random()*8+7)+"s";
+
+
+
+snow.style.animationDelay=
+Math.random()*-15+"s";
+
+
+
+snow.style.opacity=
+Math.random()*.7+.3;
+
+
+
+document.body.appendChild(snow);
+
+
+}
+
+
+</script>
+
+
+
+</body>
+</html>
